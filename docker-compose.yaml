@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres
+    restart: always
+    volumes:
+      - data:/data/db/postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=verysecretpassword
+      - POSTGRES_DB=united
+    ports:
+      - 5600:5432
+volumes:
+  data:
