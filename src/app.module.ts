@@ -9,6 +9,7 @@ import { ParticipantsModule } from './modules/participants/participants.module';
 import { TransactionDebtorsModule } from './modules/transaction-debtors/transaction-debtors.module';
 import { TransactionsModule } from './modules/transactions/transactions.module';
 import { PrismaModule } from './config/prisma/prisma.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { PrismaModule } from './config/prisma/prisma.module';
       envFilePath: ['.env.development', '.env.production'],
       validate: validate,
     }),
+    AuthModule,
     GroupsModule,
     ParticipantsModule,
     TransactionDebtorsModule,
