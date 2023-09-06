@@ -21,12 +21,11 @@ export class GroupsController {
   @Post()
   create(@Body() createGroupDto: CreateGroupDto) {
     return this.groupsService.create({
-      id: uuidv4(),
+      id: uuidv4().toString(),
       title: createGroupDto.title,
       description: createGroupDto.description,
       icon: createGroupDto.icon,
-      // TODO: Ajustar quando tiver JWT
-      ownerId: '1',
+      owner: null,
     });
   }
 

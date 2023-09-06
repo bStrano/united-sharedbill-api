@@ -3,6 +3,7 @@ import { Group } from '../entities/group.entity';
 import { Prisma } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { UpdateGroupDto } from '../dto/update-group.dto';
+import { CreateGroupDto } from '../dto/create-group.dto';
 
 @Injectable()
 export class GroupsService {
