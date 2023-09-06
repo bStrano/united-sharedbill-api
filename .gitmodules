@@ -1,0 +1,3 @@
+[submodule "libs/united-shared-core"]
+	path = libs/united-shared-core
+	url = git@github.com:bStrano/united-shared-core.git
