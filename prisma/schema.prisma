@@ -17,6 +17,7 @@ model Participants {
   userId                  String
   groupId                 String
   group                   Groups               @relation(fields: [groupId], references: [id])
+  groups                  Groups[]             @relation("GroupsOwnedByMe")
   transactionsCreatedByMe Transactions[]       @relation("TransactionsCreatedByMe")
   transactionsOwnedByMe   Transactions[]       @relation("TransactionsOwnedByMe")
   createdAt               DateTime             @default(now())
@@ -36,6 +37,7 @@ model Groups {
   title        String
   description  String?
   icon         String
+  owner        Participants   @relation(fields: [ownerId], references: [id], name: "GroupsOwnedByMe")
   ownerId      String
   transactions Transactions[]
   participants Participants[]

@@ -4,6 +4,11 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { EnvironmentService } from './config/envinronment/environment.service';
 import { validate } from './config/envinronment/environment.config';
+import { GroupsModule } from './modules/groups/groups.module';
+import { ParticipantsModule } from './modules/participants/participants.module';
+import { TransactionDebtorsModule } from './modules/transaction-debtors/transaction-debtors.module';
+import { TransactionsModule } from './modules/transactions/transactions.module';
+import { PrismaModule } from './config/prisma/prisma.module';
 
 @Module({
   imports: [
@@ -12,6 +17,11 @@ import { validate } from './config/envinronment/environment.config';
       envFilePath: ['.env.development', '.env.production'],
       validate: validate,
     }),
+    GroupsModule,
+    ParticipantsModule,
+    TransactionDebtorsModule,
+    TransactionsModule,
+    PrismaModule,
   ],
   controllers: [AppController],
   providers: [AppService, EnvironmentService],
