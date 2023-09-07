@@ -40,7 +40,7 @@ WORKDIR /app
 
 #Clone the private repository with submodules
 RUN  git clone git@github.com:bStrano/united-sharedbill-api.git .
-RUN sed -i 's/git@github\.com:bStrano\/united-shared-core\.git/ssh:\/\/github\.com-united-core\/bStrano\/united-shared-core\.git/g' .gitmodules
+RUN sed -i 's/git@github\.com:bStrano\/united-sharedbill-core\.git/ssh:\/\/github\.com-united-core\/bStrano\/united-sharedbill-core\.git/g' .gitmodules
 
 RUN  git submodule update --init --recursive
 RUN  git checkout main && git pull
