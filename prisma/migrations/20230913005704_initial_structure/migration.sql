@@ -50,6 +50,18 @@ CREATE TABLE "Transactions" (
     CONSTRAINT "Transactions_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "ParticipantInvitations" (
+    "id" TEXT NOT NULL,
+    "groupId" TEXT NOT NULL,
+    "inviterId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "expiresAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "ParticipantInvitations_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Participants_email_key" ON "Participants"("email");
 
@@ -60,6 +72,9 @@ ALTER TABLE "Participants" ADD CONSTRAINT "Participants_groupId_fkey" FOREIGN KE
 ALTER TABLE "TransactionDebtors" ADD CONSTRAINT "TransactionDebtors_participantId_fkey" FOREIGN KEY ("participantId") REFERENCES "Participants"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Groups" ADD CONSTRAINT "Groups_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "Participants"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Transactions" ADD CONSTRAINT "Transactions_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "Participants"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -67,3 +82,9 @@ ALTER TABLE "Transactions" ADD CONSTRAINT "Transactions_creatorId_fkey" FOREIGN 
 
 -- AddForeignKey
 ALTER TABLE "Transactions" ADD CONSTRAINT "Transactions_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Groups"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ParticipantInvitations" ADD CONSTRAINT "ParticipantInvitations_inviterId_fkey" FOREIGN KEY ("inviterId") REFERENCES "Participants"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ParticipantInvitations" ADD CONSTRAINT "ParticipantInvitations_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Groups"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
