@@ -7,17 +7,27 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { TransactionsService } from './transactions.service';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { UpdateTransactionDto } from './dto/update-transaction.dto';
+import { TransactionsService } from '../services/transactions.service';
+import { UpdateTransactionDto } from '../dto/update-transaction.dto';
+import { CreateExpenseDto } from '@app/modules/transactions/dto/create-expense.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { RequestUser } from '@app/modules/auth/decorators/request-user.decorator';
+import { JWTPayload } from '@app/modules/auth/types/JWTPayload';
 
+@ApiTags('Transactions')
 @Controller('transactions')
 export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
   @Post()
-  create(@Body() createTransactionDto: CreateTransactionDto) {
-    return this.transactionsService.create(createTransactionDto);
+  create(
+    @RequestUser() user: JWTPayload,
+    @Body() createTransactionDto: CreateExpenseDto,
+  ) {
+    return this.transactionsService.create({
+      ...createTransactionDto,
+      userId: user.userId,
+    });
   }
 
   @Get()

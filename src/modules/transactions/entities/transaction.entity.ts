@@ -1,5 +1,7 @@
 import { Participant } from '../../participants/entities/participant.entity';
 import { Group } from '../../groups/entities/group.entity';
+import { TransactionOwner } from '../../transaction-owners/entities/transaction-owner.entity';
+import { TransactionDebtor } from '@app/modules/transaction-debtors/entities/transaction-debtor.entity';
 
 export class Transaction {
   id: string;
@@ -12,7 +14,10 @@ export class Transaction {
   ownedId: string;
   creatorId: string;
 
-  owner: Participant;
+  debtors: TransactionDebtor[];
+  owners: TransactionOwner[];
   creator: Participant;
   group: Group;
+
+  constructor() {}
 }

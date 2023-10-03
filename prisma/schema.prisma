@@ -11,35 +11,39 @@ datasource db {
 }
 
 model Users {
-  id           String         @id
-  name         String
-  email        String         @unique
-  oauthToken   String
-  Participants Participants[]
-  groups       Groups[]       @relation("GroupsOwnedByMe")
+  id                      String         @id
+  name                    String
+  email                   String         @unique
+  oauthToken              String
+  Participants            Participants[]
+  transactionsCreatedByMe Transactions[] @relation("TransactionsCreatedByMe")
+  groups                  Groups[]       @relation("GroupsOwnedByMe")
 }
 
 model Participants {
-  id                      String                   @id
-  userId                  String
-  groupId                 String
-  user                    Users                    @relation(fields: [userId], references: [id])
-  group                   Groups                   @relation(fields: [groupId], references: [id])
-  transactionsCreatedByMe Transactions[]           @relation("TransactionsCreatedByMe")
-  transactionsOwnedByMe   Transactions[]           @relation("TransactionsOwnedByMe")
-  groupInvitations        ParticipantInvitations[]
-  createdAt               DateTime                 @default(now())
-  updatedAt               DateTime                 @updatedAt
-  TransactionDebtors      TransactionDebtors[]
+  id                 String                   @id
+  userId             String
+  groupId            String
+  user               Users                    @relation(fields: [userId], references: [id])
+  group              Groups                   @relation(fields: [groupId], references: [id])
+  groupInvitations   ParticipantInvitations[]
+  createdAt          DateTime                 @default(now())
+  updatedAt          DateTime                 @updatedAt
+  TransactionDebtors TransactionDebtors[]
+  TransactionOwners  TransactionOwners[]
+  Transactions       Transactions[]
 
   @@unique([groupId, userId])
 }
 
 model TransactionDebtors {
-  id            String       @id
+  transaction   Transactions @relation(fields: [transactionId], references: [id])
+  transactionId String
   participant   Participants @relation(fields: [participantId], references: [id])
   participantId String
   total         Float?
+
+  @@id([transactionId, participantId])
 }
 
 model Groups {
@@ -56,6 +60,16 @@ model Groups {
   updatedAt        DateTime                 @updatedAt
 }
 
+model TransactionOwners {
+  participant   Participants @relation(fields: [participantId], references: [id])
+  participantId String
+  transaction   Transactions @relation(fields: [transactionId], references: [id])
+  transactionId String
+  total         Float?
+
+  @@id([participantId, transactionId])
+}
+
 model Transactions {
   id          String  @id
   title       String
@@ -63,15 +77,17 @@ model Transactions {
   total       Float
   icon        String
   groupId     String
-  ownerId     String
   creatorId   String
 
-  onwer     Participants @relation(fields: [ownerId], references: [id], name: "TransactionsOwnedByMe")
-  creator   Participants @relation(fields: [creatorId], references: [id], name: "TransactionsCreatedByMe")
-  group     Groups       @relation(fields: [groupId], references: [id])
-  isSettled Boolean      @default(false)
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  owners         TransactionOwners[]
+  creator        Users                @relation(fields: [creatorId], references: [id], name: "TransactionsCreatedByMe")
+  group          Groups               @relation(fields: [groupId], references: [id])
+  isSettled      Boolean              @default(false)
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+  participants   Participants?        @relation(fields: [participantsId], references: [id])
+  participantsId String?
+  debtors        TransactionDebtors[]
 }
 
 model ParticipantInvitations {
