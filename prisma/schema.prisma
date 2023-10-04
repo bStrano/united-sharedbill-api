@@ -14,8 +14,9 @@ model Users {
   id                      String         @id
   name                    String
   email                   String         @unique
-  oauthToken              String
-  Participants            Participants[]
+  password                String?
+  oauthId                 String?
+  participants            Participants[]
   transactionsCreatedByMe Transactions[] @relation("TransactionsCreatedByMe")
   groups                  Groups[]       @relation("GroupsOwnedByMe")
 }
