@@ -1,7 +1,11 @@
-import { CommonEntity } from '../../../shared/commons/CommonEntity';
+import { CommonEntity } from '@app/shared/commons/CommonEntity';
 import { v4 as uuid } from 'uuid';
+import { ParticipantInvation } from '../../../../libs/united-sharedbill-core/src/modules/participants/entities/participant-invation';
 
-export class ParticipantInvitation extends CommonEntity {
+export class ParticipantInvitation
+  extends CommonEntity
+  implements ParticipantInvation
+{
   id: string;
   groupId: string;
   inviterId: string;
