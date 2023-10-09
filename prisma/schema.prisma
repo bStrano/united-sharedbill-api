@@ -30,9 +30,9 @@ model Participants {
   groupInvitations   ParticipantInvitations[]
   createdAt          DateTime                 @default(now())
   updatedAt          DateTime                 @updatedAt
-  TransactionDebtors TransactionDebtors[]
-  TransactionOwners  TransactionOwners[]
-  Transactions       Transactions[]
+  transactionDebtors TransactionDebtors[]
+  transactionsOwners TransactionOwners[]
+  transactions       Transactions[]
 
   @@unique([groupId, userId])
 }

@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { CreateGroupDto } from '../dto/create-group.dto';
 import { UpdateGroupDto } from '../dto/update-group.dto';
@@ -17,6 +19,7 @@ import { JWTPayload } from '../../auth/types/JWTPayload';
 
 @ApiTags('Groups')
 @Controller('groups')
+@UseInterceptors(ClassSerializerInterceptor)
 export class GroupsController {
   constructor(private readonly groupsService: GroupsService) {}
 

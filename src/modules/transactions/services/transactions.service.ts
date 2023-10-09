@@ -74,7 +74,7 @@ export class TransactionsService {
     }
     transactionBuilder.withOwners(createTransactionDto.owners);
     const transaction = transactionBuilder.build();
-    const newTransaction = await this.prismaService.transactions.create({
+    return this.prismaService.transactions.create({
       data: {
         id: transaction.id,
         title: transaction.title,
@@ -118,11 +118,17 @@ export class TransactionsService {
         },
       },
     });
-    return newTransaction;
   }
 
-  findAll() {
-    return `This action returns all transactions`;
+  findAllByGroup(userId: number, groupId: string) {
+    if (!groupId) {
+      throw new BadRequestException('Group id is required');
+    }
+    return this.prismaService.transactions.findMany({
+      where: {
+        groupId,
+      },
+    });
   }
 
   findOne(id: number) {

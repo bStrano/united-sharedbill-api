@@ -32,7 +32,7 @@ export class TransactionsController {
 
   @Get()
   findAll() {
-    return this.transactionsService.findAll();
+    // return this.transactionsService.findAll();
   }
 
   @Get(':id')

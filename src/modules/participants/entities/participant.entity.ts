@@ -1,27 +1,29 @@
 import { Group } from '../../groups/entities/group.entity';
 import { Transaction } from '../../transactions/entities/transaction.entity';
 import { TransactionDebtor } from '../../transaction-debtors/entities/transaction-debtor.entity';
-import { CommonEntity } from '../../../shared/commons/CommonEntity';
+import { CommonEntity } from '@app/shared/commons/CommonEntity';
 import { v4 as uuid } from 'uuid';
+import { ParticipantInterface } from '../../../../libs/united-sharedbill-core/src/modules/participants/entities/participant.interface';
+import { TransactionOwner } from '@app/modules/transaction-owners/entities/transaction-owner.entity';
 
-export class Participant extends CommonEntity {
+export class Participant extends CommonEntity implements ParticipantInterface {
   id: string;
   userId: string;
   groupId: string;
-  group: Group;
-  transactionCreatedByMe: Transaction[];
-  transactionsOwnedByMe: Transaction[];
-  transactionDebtor: TransactionDebtor[];
+  group?: Group;
+  transactions?: Transaction[];
+  transactionsOwners?: TransactionOwner[];
+  transactionDebtors?: TransactionDebtor[];
 
-  private constructor(props?: Partial<Participant>) {
+  constructor(props?: Partial<Participant>) {
     super();
     this.id = props.id;
     this.userId = props.userId;
     this.groupId = props.groupId;
     this.group = props.group;
-    this.transactionCreatedByMe = props.transactionCreatedByMe;
-    this.transactionsOwnedByMe = props.transactionsOwnedByMe;
-    this.transactionDebtor = props.transactionDebtor;
+    this.transactions = props.transactions;
+    this.transactionsOwners = props.transactionsOwners;
+    this.transactionDebtors = props.transactionDebtors;
   }
 
   static create(userId: string, groupId: string) {
@@ -29,6 +31,12 @@ export class Participant extends CommonEntity {
       id: uuid(),
       userId,
       groupId,
+    });
+  }
+
+  static createFromPrisma(data: Participant) {
+    return new Participant({
+      ...data,
     });
   }
 }

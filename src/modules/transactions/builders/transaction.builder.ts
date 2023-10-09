@@ -2,6 +2,7 @@ import { Transaction } from '@app/modules/transactions/entities/transaction.enti
 import { v4 as uuid } from 'uuid';
 import { ParticipantAmount } from '@app/modules/transactions/dto/create-expense.dto';
 import { BadRequestException } from '@nestjs/common';
+import { IconsEnum } from '../../../../libs/united-sharedbill-core/src/shared/enums/icons.enum';
 
 export class TransactionBuilder {
   private transaction: Transaction;
@@ -19,7 +20,7 @@ export class TransactionBuilder {
     title: string,
     description: string,
     total: number,
-    icon: string,
+    icon: IconsEnum,
     groupId: string,
   ): TransactionBuilder {
     this.transaction.title = title;
@@ -144,6 +145,7 @@ export class TransactionBuilder {
         participantId: owner.participantId,
         transactionId: this.transaction.id,
         total: owner.value,
+        createdAt: new Date(),
       };
     });
     return this;
