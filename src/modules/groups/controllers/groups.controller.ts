@@ -14,7 +14,7 @@ import { UpdateGroupDto } from '../dto/update-group.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { GroupsService } from '../services/groups.service';
 import { v4 as uuidv4 } from 'uuid';
-import { RequestUser } from '../../auth/decorators/request-user.decorator';
+import { RequestUser } from '@app/shared/decorators/request-user.decorator';
 import { JWTPayload } from '../../auth/types/JWTPayload';
 
 @ApiTags('Groups')

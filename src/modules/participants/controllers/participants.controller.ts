@@ -1,7 +1,7 @@
 import { Controller, Post, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ParticipantInvitationService } from '../services/participant-invitation.service';
-import { RequestUser } from '../../auth/decorators/request-user.decorator';
+import { RequestUser } from '@app/shared/decorators/request-user.decorator';
 import { JWTPayload } from '../../auth/types/JWTPayload';
 import { GenerateGroupInvitationDto } from '../dto/generate-group-invitation.dto';
 import { JoinGroupInvitationDto } from '../dto/join-group-invitation.dto';

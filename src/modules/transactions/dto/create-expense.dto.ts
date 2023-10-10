@@ -54,7 +54,7 @@ export class CreateExpenseDto implements CreateTransactionDtoInterface {
   @Type(() => ParticipantAmount)
   @ValidateNested({ each: true })
   @Type(() => ParticipantAmount)
-  participants: ParticipantAmount[];
+  debtors: ParticipantAmount[];
   @ApiProperty({ enum: TransactionTypeEnum })
   @IsEnum(TransactionTypeEnum)
   transactionType: TransactionTypeEnum;

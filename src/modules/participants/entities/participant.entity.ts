@@ -12,17 +12,17 @@ export class Participant extends CommonEntity implements ParticipantInterface {
   groupId: string;
   group?: Group;
   transactions?: Transaction[];
-  transactionsOwners?: TransactionOwner[];
+  transactionOwners?: TransactionOwner[];
   transactionDebtors?: TransactionDebtor[];
 
-  constructor(props?: Partial<Participant>) {
+  constructor(props?: Partial<ParticipantInterface>) {
     super();
     this.id = props.id;
     this.userId = props.userId;
     this.groupId = props.groupId;
-    this.group = props.group;
-    this.transactions = props.transactions;
-    this.transactionsOwners = props.transactionsOwners;
+    this.group = props.group as Group;
+    this.transactions = props.transactions as Transaction[];
+    this.transactionOwners = props.transactionOwners as TransactionOwner[];
     this.transactionDebtors = props.transactionDebtors;
   }
 
@@ -34,7 +34,7 @@ export class Participant extends CommonEntity implements ParticipantInterface {
     });
   }
 
-  static createFromPrisma(data: Participant) {
+  static createFromPrisma(data: ParticipantInterface) {
     return new Participant({
       ...data,
     });

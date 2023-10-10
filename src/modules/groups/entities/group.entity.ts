@@ -7,6 +7,10 @@ import { User } from '@app/modules/users/entities/user.entity';
 import { GroupInterface } from '../../../../libs/united-sharedbill-core/src/modules/groups/entities/group.interface';
 import { IconsEnum } from '../../../../libs/united-sharedbill-core/src/shared/enums/icons.enum';
 
+interface GroupInterfacePrisma
+  extends Omit<GroupInterface, 'icon' | 'participantsCount'> {
+  icon: string;
+}
 export class Group extends CommonEntity implements GroupInterface {
   id: string;
   title: string;
@@ -16,7 +20,7 @@ export class Group extends CommonEntity implements GroupInterface {
   owner?: User;
   participants?: Participant[];
 
-  private constructor(props?: Partial<Group>) {
+  private constructor(props?: Partial<GroupInterface>) {
     super();
     this.id = props.id;
     this.title = props.title;
@@ -24,10 +28,14 @@ export class Group extends CommonEntity implements GroupInterface {
     this.icon = props.icon;
     this.ownerId = props.ownerId;
     this.owner = props.owner;
-    this.participants = props.participants;
+    this.participants = props.participants as Participant[];
   }
 
-  static create(props?: Partial<Group>) {
+  isMember(userId: string) {
+    return this.participants?.some((item) => item.userId === userId);
+  }
+
+  static create(props?: Partial<GroupInterface>) {
     return new Group(props);
   }
 
@@ -46,14 +54,15 @@ export class Group extends CommonEntity implements GroupInterface {
     });
   }
 
-  static createFromPrisma(props: Omit<Group, 'participantsCount'>) {
+  static createFromPrisma(props: GroupInterfacePrisma) {
     return new Group({
       id: props.id,
-      icon: props.icon,
+      icon: props.icon as IconsEnum,
       description: props.description,
       title: props.title,
       ownerId: props.ownerId,
-      participants: props.participants.map((item) => {
+      owner: User.createFromPrisma(props.owner),
+      participants: props.participants?.map((item) => {
         return Participant.createFromPrisma(item);
       }),
     });
