@@ -9,6 +9,7 @@ export class User implements UserInterface {
   name: string;
   oauthId: string;
   password: string;
+  providerId?: string;
   groups?: GroupInterface[];
   participants?: ParticipantInterface[];
   transactionsCreatedByMe?: TransactionInterface[];
@@ -22,6 +23,7 @@ export class User implements UserInterface {
     this.participants = props.participants;
     this.password = props.password;
     this.transactionsCreatedByMe = props.transactionsCreatedByMe;
+    this.providerId = props.providerId;
   }
 
   static createFromPrisma(data: User) {

@@ -4,14 +4,20 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './services/jwt.strategy';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { AuthService } from '@app/modules/auth/services/auth.service';
+import { AuthController } from '@app/modules/auth/controllers/auth.controller';
+import { SessionService } from '@app/modules/auth/services/session.service';
+import { UsersModule } from '@app/modules/users/users.module';
+import { PrismaModule } from '@app/config/prisma/prisma.module';
+import { EnvironmentModule } from '@app/config/envinronment/envinronment.module';
 
 @Module({
   imports: [
     PassportModule,
-    JwtModule.register({
-      secret: process.env.ACCESS_TOKEN_SECRET,
-      signOptions: { expiresIn: '120d' },
-    }),
+    PrismaModule,
+    EnvironmentModule,
+    UsersModule,
+    JwtModule.register({}),
   ],
   providers: [
     JwtStrategy,
@@ -19,6 +25,9 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
+    AuthService,
+    SessionService,
   ],
+  controllers: [AuthController],
 })
 export class AuthModule {}

@@ -20,7 +20,7 @@ export class ParticipantsController {
   ) {
     return this.participantInvitationService.generateInvitation({
       groupId: params.groupId,
-      userId: user.userId,
+      userId: user.id,
     });
   }
 
@@ -31,7 +31,7 @@ export class ParticipantsController {
   ) {
     return this.participantInvitationService.joinGroupInvitation({
       ...params,
-      userId: user.userId,
+      userId: user.id,
     });
   }
 }

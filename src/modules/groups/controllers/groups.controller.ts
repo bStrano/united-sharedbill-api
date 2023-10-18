@@ -35,7 +35,7 @@ export class GroupsController {
       icon: createGroupDto.icon,
       owner: {
         connect: {
-          id: user.userId,
+          id: user.id,
         },
       },
       participants: {
@@ -43,7 +43,7 @@ export class GroupsController {
           data: [
             {
               id: uuidv4().toString(),
-              userId: user.userId,
+              userId: user.id,
             },
           ],
         },

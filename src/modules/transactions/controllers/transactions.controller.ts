@@ -30,18 +30,18 @@ export class TransactionsController {
   ) {
     return this.transactionsService.create({
       ...createTransactionDto,
-      userId: user.userId,
+      userId: user.id,
     });
   }
 
   @Get('/group/:groupId')
   findAll(@RequestUser() user: JWTPayload, @Param() params: FindAllByGroupDto) {
-    return this.transactionsService.findAllByGroup(user.userId, params.groupId);
+    return this.transactionsService.findAllByGroup(user.id, params.groupId);
   }
 
   @Get(':id')
   findOne(@RequestUser() user: JWTPayload, @Param('id') id: string) {
-    return this.transactionsService.findOne(user.userId, id);
+    return this.transactionsService.findOne(user.id, id);
   }
 
   @Patch(':id')
@@ -52,12 +52,12 @@ export class TransactionsController {
   ) {
     return this.transactionsService.update(id, {
       ...updateTransactionDto,
-      userId: user.userId,
+      userId: user.id,
     });
   }
 
   @Delete(':id')
   remove(@RequestUser() user: JWTPayload, @Param() id: string) {
-    return this.transactionsService.remove(user.userId, id);
+    return this.transactionsService.remove(user.id, id);
   }
 }

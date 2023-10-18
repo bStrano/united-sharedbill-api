@@ -11,14 +11,17 @@ datasource db {
 }
 
 model Users {
-  id                      String         @id
+  id                      String          @id
   name                    String
-  email                   String         @unique
+  email                   String          @unique
   password                String?
   oauthId                 String?
+  avatar                  String?
+  providerId              String?
   participants            Participants[]
-  transactionsCreatedByMe Transactions[] @relation("TransactionsCreatedByMe")
-  groups                  Groups[]       @relation("GroupsOwnedByMe")
+  transactionsCreatedByMe Transactions[]  @relation("TransactionsCreatedByMe")
+  groups                  Groups[]        @relation("GroupsOwnedByMe")
+  refreshTokens           RefreshTokens[]
 }
 
 model Participants {
@@ -100,4 +103,13 @@ model ParticipantInvitations {
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
   expiresAt DateTime
+}
+
+model RefreshTokens {
+  id        String   @id
+  userId    String
+  user      Users    @relation(fields: [userId], references: [id])
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

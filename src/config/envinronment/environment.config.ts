@@ -1,4 +1,4 @@
-import { IsEnum, IsNumber, IsString, validateSync } from "class-validator";
+import { IsEnum, IsNumber, IsString, validateSync } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 
 export enum Environment {
@@ -17,7 +17,22 @@ class EnvironmentVariables {
   PORT: number;
 
   @IsString()
-  DATABASE_URL;
+  DATABASE_URL: string;
+
+  @IsString()
+  ACCESS_TOKEN_SECRET: string;
+
+  @IsNumber()
+  ACCESS_TOKEN_SECRET_EXPIRE_SECONDS: number;
+
+  @IsString()
+  REFRESH_TOKEN_SECRET: string;
+
+  @IsNumber()
+  REFRESH_TOKEN_SECRET_EXPIRE_SECONDS: number;
+
+  @IsString()
+  GOOGLE_CLIENT_ID: string;
 }
 
 export function validate(config: Record<string, unknown>) {
