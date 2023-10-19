@@ -4,7 +4,7 @@ import { EnvironmentService } from '@app/config/envinronment/environment.service
 import { User } from '@app/modules/users/entities/user.entity';
 import { PrismaService } from '@app/config/prisma/PrismaService';
 import { v4 as uuid } from 'uuid';
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class SessionService {
@@ -13,6 +13,45 @@ export class SessionService {
     private readonly environmentService: EnvironmentService,
     private readonly jwtService: JwtService,
   ) {}
+
+  async deleteSession(refreshToken: string) {
+    await this.verifyRefreshToken(refreshToken);
+
+    await this.prismaService.refreshTokens.delete({
+      where: {
+        token: refreshToken,
+      },
+    });
+  }
+
+  async verifyRefreshToken(refreshToken: string) {
+    const token = await this.prismaService.refreshTokens.findUnique({
+      where: {
+        token: refreshToken,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    if (!token) {
+      return;
+    }
+
+    const user = this.jwtService.verify<JWTPayload>(refreshToken, {
+      secret: this.environmentService.refreshTokenSecret,
+    });
+
+    if (!user) throw new ForbiddenException('Invalid token');
+
+    if (token.userId !== user.id) {
+      throw new ForbiddenException(
+        'You are not allowed to delete this session',
+      );
+    }
+
+    return user;
+  }
 
   async createSession(user: User) {
     const { accessToken, refreshToken } = this.generateTokens({
@@ -59,5 +98,16 @@ export class SessionService {
       secret: this.environmentService.refreshTokenSecret,
       expiresIn: `${this.environmentService.refreshTokenSecretExpireSeconds}s`,
     });
+  }
+
+  async refreshSession(refreshToken: string) {
+    const userPayload = await this.verifyRefreshToken(refreshToken);
+    await this.deleteSession(refreshToken);
+    const user = await this.prismaService.users.findUnique({
+      where: {
+        id: userPayload.id,
+      },
+    });
+    return this.createSession(user);
   }
 }

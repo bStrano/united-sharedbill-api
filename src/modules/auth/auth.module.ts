@@ -10,6 +10,7 @@ import { SessionService } from '@app/modules/auth/services/session.service';
 import { UsersModule } from '@app/modules/users/users.module';
 import { PrismaModule } from '@app/config/prisma/prisma.module';
 import { EnvironmentModule } from '@app/config/envinronment/envinronment.module';
+import { SessionController } from '@app/modules/auth/controllers/session.controller';
 
 @Module({
   imports: [
@@ -28,6 +29,6 @@ import { EnvironmentModule } from '@app/config/envinronment/envinronment.module'
     AuthService,
     SessionService,
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, SessionController],
 })
 export class AuthModule {}
