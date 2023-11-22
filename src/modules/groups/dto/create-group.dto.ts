@@ -1,4 +1,4 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { IconsEnum } from '../../../../libs/united-sharedbill-core/src/shared/enums/icons.enum';
 
@@ -11,6 +11,6 @@ export class CreateGroupDto {
   @IsOptional()
   description: string;
   @ApiProperty()
-  @IsString()
+  @IsEnum(IconsEnum)
   icon: IconsEnum;
 }

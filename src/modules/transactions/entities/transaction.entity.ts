@@ -14,11 +14,12 @@ export class Transaction implements TransactionInterface {
   isSettled: boolean;
   groupId: string;
   creatorId: string;
-
   debtors?: TransactionDebtor[];
   owners?: TransactionOwner[];
   creator?: User;
   group?: Group;
+  createdAt: Date;
+  updatedAt: Date;
 
   constructor() {}
 }

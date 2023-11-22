@@ -52,8 +52,8 @@ export class GroupsController {
   }
 
   @Get()
-  findAll() {
-    return this.groupsService.findAll();
+  findAll(@RequestUser() user: JWTPayload) {
+    return this.groupsService.findAll(user.id);
   }
 
   @Get(':id')

@@ -8,6 +8,9 @@ import { PrismaService } from '@app/config/prisma/PrismaService';
 import { TransactionTypeEnum } from '../../../../libs/united-sharedbill-core/src/modules/transactions/enums/transaction-type.enum';
 import { TransactionBuilder } from '@app/modules/transactions/builders/transaction.builder';
 import { Group } from '@app/modules/groups/entities/group.entity';
+import { TransactionTimelineSection } from '../../../../libs/united-sharedbill-core/src/modules/transactions/responses/timeline/transaction-timeline-section';
+import { TransactionTimelineContent } from '../../../../libs/united-sharedbill-core/src/modules/transactions/responses/timeline/transaction-timeline-content';
+import { TransactionInterface } from '../../../../libs/united-sharedbill-core/src/modules/transactions/entities/transaction.interface';
 
 @Injectable()
 export class TransactionsService {
@@ -127,13 +130,80 @@ export class TransactionsService {
     return transactionBuilder.build();
   }
 
-  async findAllByGroup(userId: string, groupId: string) {
+  async findAllByGroup(
+    userId: string,
+    groupId: string,
+  ): Promise<TransactionTimelineSection[]> {
     await this.checkPermission(groupId, userId);
 
-    return this.prismaService.transactions.findMany({
+    const data = await this.prismaService.transactions.findMany({
+      include: {
+        debtors: {
+          include: {
+            participant: {
+              include: {
+                user: true,
+              },
+            },
+          },
+        },
+        owners: {
+          include: {
+            participant: {
+              include: {
+                user: true,
+              },
+            },
+          },
+        },
+      },
       where: {
         groupId,
       },
+    });
+
+    const groupedByDateMonth = new Map<string, TransactionInterface[]>();
+    data.forEach((item) => {
+      const date = new Date(item.createdAt);
+      const key = `${date.getMonth()}-${date.getFullYear()}`;
+      if (!groupedByDateMonth.has(key)) {
+        groupedByDateMonth.set(key, []);
+      }
+
+      groupedByDateMonth.get(key).push(item as unknown as TransactionInterface);
+    });
+    return Array.from(groupedByDateMonth).map(([key, value]) => {
+      return {
+        key,
+        month: key.split('-')[0],
+        year: key.split('-')[1],
+        data: value.map((item) => {
+          const transactionTimelineContent: TransactionTimelineContent = {
+            owners: item.owners.map((owner) => {
+              return {
+                name: owner.participant.user.name,
+                amount: owner.total,
+              };
+            }),
+            ownersCount: item.owners.length,
+            userAmount:
+              (item.debtors &&
+                item.debtors.find(
+                  (debtor) => debtor.participant.userId === userId,
+                )?.total) ||
+              0,
+            createdAt: item.createdAt,
+            icon: item.icon,
+            id: item.id,
+            isOwner: item.owners.some(
+              (owner) => owner.participant.userId === userId,
+            ),
+            title: item.title,
+            total: item.total,
+          };
+          return transactionTimelineContent;
+        }),
+      };
     });
   }
 
@@ -148,14 +218,12 @@ export class TransactionsService {
     });
 
     const group = Group.createFromPrisma(groupRaw);
-
-    if (!group.isMember(userId.toString())) {
+    if (!group.isMember(userId)) {
       throw new ForbiddenException('You are not a member of this group');
     }
   }
 
   async findOne(userId: string, id: string) {
-    console.log('XXXX', id);
     const transaction = await this.prismaService.transactions.findUnique({
       include: {
         owners: {

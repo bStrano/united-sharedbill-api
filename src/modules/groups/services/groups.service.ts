@@ -20,11 +20,18 @@ export class GroupsService {
     return Group.create({ ...groupRaw, icon: groupRaw.icon as IconsEnum });
   }
 
-  async findAll(): Promise<Group[]> {
+  async findAll(userId: string): Promise<Group[]> {
     const groupsRaw = await this.prisma.groups.findMany({
       include: {
         participants: true,
         owner: true,
+      },
+      where: {
+        participants: {
+          some: {
+            userId: userId,
+          },
+        },
       },
     });
     return groupsRaw.map((item) => {
