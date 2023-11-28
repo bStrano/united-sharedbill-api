@@ -34,9 +34,13 @@ export class TransactionsController {
     });
   }
 
-  @Get('/group/:groupId')
+  @Get('/group/:groupId/:timezoneOffset')
   findAll(@RequestUser() user: JWTPayload, @Param() params: FindAllByGroupDto) {
-    return this.transactionsService.findAllByGroup(user.id, params.groupId);
+    return this.transactionsService.findAllByGroup(
+      user.id,
+      params.groupId,
+      params.timezoneOffset,
+    );
   }
 
   @Get(':id')

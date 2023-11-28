@@ -133,6 +133,7 @@ export class TransactionsService {
   async findAllByGroup(
     userId: string,
     groupId: string,
+    timezoneOffset: number,
   ): Promise<TransactionTimelineSection[]> {
     await this.checkPermission(groupId, userId);
 
@@ -165,7 +166,8 @@ export class TransactionsService {
     const groupedByDateMonth = new Map<string, TransactionInterface[]>();
     data.forEach((item) => {
       const date = new Date(item.createdAt);
-      const key = `${date.getMonth()}-${date.getFullYear()}`;
+      const dateWithOffset = new Date(date.getTime() - timezoneOffset * 60000);
+      const key = `${dateWithOffset.getMonth()}-${dateWithOffset.getFullYear()}`;
       if (!groupedByDateMonth.has(key)) {
         groupedByDateMonth.set(key, []);
       }

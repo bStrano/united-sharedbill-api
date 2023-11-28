@@ -1,5 +1,6 @@
 import { IsNumber, IsUUID } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
 export class FindAllByGroupDto {
   @IsUUID()
@@ -7,5 +8,6 @@ export class FindAllByGroupDto {
   groupId: string;
   @IsNumber()
   @ApiProperty({ example: -120 })
+  @Type(() => Number)
   timezoneOffset: number;
 }
