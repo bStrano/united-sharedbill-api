@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  ArrayMinSize,
   IsArray,
   IsEnum,
   IsNumber,
   IsString,
   IsUUID,
-  MinLength,
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -44,13 +44,13 @@ export class CreateExpenseDto implements CreateTransactionDtoInterface {
   groupId: string;
   @ApiProperty({ isArray: true, type: ParticipantAmount })
   @IsArray()
-  @MinLength(1)
+  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => ParticipantAmount)
   owners: ParticipantAmount[];
   @ApiProperty({ isArray: true, type: ParticipantAmount })
   @IsArray()
-  @MinLength(1)
+  @ArrayMinSize(1)
   @Type(() => ParticipantAmount)
   @ValidateNested({ each: true })
   @Type(() => ParticipantAmount)
