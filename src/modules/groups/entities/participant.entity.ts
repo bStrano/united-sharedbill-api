@@ -1,10 +1,10 @@
 import { Group } from './group.entity';
 import { Transaction } from '../../transactions/entities/transaction.entity';
-import { TransactionDebtor } from '../../transaction-debtors/entities/transaction-debtor.entity';
+import { TransactionDebtor } from '../../transactions/entities/transaction-debtor.entity';
 import { CommonEntity } from '@app/shared/commons/CommonEntity';
 import { v4 as uuid } from 'uuid';
 import { ParticipantInterface } from '../../../../libs/united-sharedbill-core/src/modules/participants/entities/participant.interface';
-import { TransactionOwner } from '@app/modules/transaction-owners/entities/transaction-owner.entity';
+import { TransactionOwner } from '@app/modules/transactions/entities/transaction-owner.entity';
 import { User } from '@app/modules/users/entities/user.entity';
 
 export class Participant extends CommonEntity implements ParticipantInterface {

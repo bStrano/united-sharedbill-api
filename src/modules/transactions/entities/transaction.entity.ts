@@ -1,6 +1,6 @@
 import { Group } from '../../groups/entities/group.entity';
-import { TransactionOwner } from '../../transaction-owners/entities/transaction-owner.entity';
-import { TransactionDebtor } from '@app/modules/transaction-debtors/entities/transaction-debtor.entity';
+import { TransactionOwner } from './transaction-owner.entity';
+import { TransactionDebtor } from '@app/modules/transactions/entities/transaction-debtor.entity';
 import { TransactionInterface } from '../../../../libs/united-sharedbill-core/src/modules/transactions/entities/transaction.interface';
 import { IconsEnum } from '../../../../libs/united-sharedbill-core/src/shared/enums/icons.enum';
 import { User } from '@app/modules/users/entities/user.entity';
