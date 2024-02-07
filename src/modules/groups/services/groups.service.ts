@@ -15,6 +15,10 @@ export class GroupsService {
   ): Promise<Group | null> {
     const groupRaw = await this.prisma.groups.findUnique({
       where: userWhereUniqueInput,
+      include: {
+        participants: true,
+        owner: true,
+      },
     });
 
     return Group.create({ ...groupRaw, icon: groupRaw.icon as IconsEnum });
