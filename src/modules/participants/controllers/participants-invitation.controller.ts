@@ -7,13 +7,13 @@ import { GenerateGroupInvitationDto } from '../dto/generate-group-invitation.dto
 import { JoinGroupInvitationDto } from '../dto/join-group-invitation.dto';
 
 @ApiTags('Participants')
-@Controller('participants')
-export class ParticipantsController {
+@Controller('participants/invitations')
+export class ParticipantsInvitationController {
   constructor(
     private readonly participantInvitationService: ParticipantInvitationService,
   ) {}
 
-  @Post('/generate-invitation/:groupId')
+  @Post('/generate/:groupId')
   generateInvitation(
     @RequestUser() user: JWTPayload,
     @Param() params: GenerateGroupInvitationDto,
@@ -24,7 +24,7 @@ export class ParticipantsController {
     });
   }
 
-  @Post('/join-group/:invitationId')
+  @Post('/join/:invitationId')
   joinGroup(
     @RequestUser() user: JWTPayload,
     @Param() params: JoinGroupInvitationDto,
