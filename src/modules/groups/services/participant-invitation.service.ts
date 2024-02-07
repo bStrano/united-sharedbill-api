@@ -1,6 +1,6 @@
 import { ParticipantInvitation } from '../entities/participant-invitation.entity';
-import { GenerateGroupInvitationDto } from '../dto/generate-group-invitation.dto';
-import { JoinGroupInvitationDto } from '../dto/join-group-invitation.dto';
+import { GenerateGroupInvitationDto } from '../dto/participants/generate-group-invitation.dto';
+import { JoinGroupInvitationDto } from '../dto/participants/join-group-invitation.dto';
 import { PrismaService } from '../../../config/prisma/PrismaService';
 import {
   ForbiddenException,

@@ -1,4 +1,4 @@
-import { Participant } from '../../participants/entities/participant.entity';
+import { Participant } from '../../groups/entities/participant.entity';
 import { Transaction } from '@app/modules/transactions/entities/transaction.entity';
 import { TransactionDebtorInterface } from '../../../../libs/united-sharedbill-core/src/modules/transaction-debtors/entities/transaction-debtor.interface';
 

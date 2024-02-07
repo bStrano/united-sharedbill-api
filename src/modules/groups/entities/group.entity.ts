@@ -1,4 +1,4 @@
-import { Participant } from '../../participants/entities/participant.entity';
+import { Participant } from './participant.entity';
 import { CommonEntity } from '@app/shared/commons/CommonEntity';
 import { v4 as uuid } from 'uuid';
 import { CreateGroupDto } from '../dto/create-group.dto';

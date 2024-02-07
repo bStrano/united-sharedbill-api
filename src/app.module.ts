@@ -7,7 +7,6 @@ import { validate } from './config/envinronment/environment.config';
 import { GroupsModule } from './modules/groups/groups.module';
 import { PrismaModule } from './config/prisma/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { ParticipantsModule } from './modules/participants/participants.module';
 import { TransactionDebtorsModule } from './modules/transaction-debtors/transaction-debtors.module';
 import { TransactionsModule } from './modules/transactions/transactions.module';
 
@@ -20,7 +19,6 @@ import { TransactionsModule } from './modules/transactions/transactions.module';
     }),
     AuthModule,
     GroupsModule,
-    ParticipantsModule,
     TransactionDebtorsModule,
     TransactionsModule,
     PrismaModule,

@@ -3,8 +3,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { ParticipantInvitationService } from '../services/participant-invitation.service';
 import { RequestUser } from '@app/shared/decorators/request-user.decorator';
 import { JWTPayload } from '../../auth/types/JWTPayload';
-import { GenerateGroupInvitationDto } from '../dto/generate-group-invitation.dto';
-import { JoinGroupInvitationDto } from '../dto/join-group-invitation.dto';
+import { GenerateGroupInvitationDto } from '../dto/participants/generate-group-invitation.dto';
+import { JoinGroupInvitationDto } from '../dto/participants/join-group-invitation.dto';
 
 @ApiTags('Participants')
 @Controller('participants/invitations')

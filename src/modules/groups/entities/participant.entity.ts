@@ -1,4 +1,4 @@
-import { Group } from '../../groups/entities/group.entity';
+import { Group } from './group.entity';
 import { Transaction } from '../../transactions/entities/transaction.entity';
 import { TransactionDebtor } from '../../transaction-debtors/entities/transaction-debtor.entity';
 import { CommonEntity } from '@app/shared/commons/CommonEntity';
