@@ -10,6 +10,7 @@ export class User implements UserInterface {
   oauthId: string;
   password: string;
   providerId?: string;
+  avatar?: string;
   groups?: GroupInterface[];
   participants?: ParticipantInterface[];
   transactionsCreatedByMe?: TransactionInterface[];
@@ -18,6 +19,7 @@ export class User implements UserInterface {
     this.email = props.email;
     this.groups = props.groups;
     this.id = props.id;
+    this.avatar = props.avatar;
     this.name = props.name;
     this.oauthId = props.oauthId;
     this.participants = props.participants;
