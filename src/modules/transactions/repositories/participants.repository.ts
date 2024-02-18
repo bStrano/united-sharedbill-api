@@ -8,6 +8,9 @@ export class ParticipantsRepository {
 
   async findAllByGroupId(groupId: string) {
     const participants = await this.prismaService.participants.findMany({
+      include: {
+        user: true,
+      },
       where: {
         groupId,
       },

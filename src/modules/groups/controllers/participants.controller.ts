@@ -1,8 +1,4 @@
-import {
-  Controller,
-  Get,
-  Param,
-} from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from '@app/shared/decorators/request-user.decorator';
 import { JWTPayload } from '../../auth/types/JWTPayload';

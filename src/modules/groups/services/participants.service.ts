@@ -40,7 +40,12 @@ export class ParticipantsService {
       const credit = participantsThatOweUserMap.get(participant.id) || 0;
 
       return {
-        ...participant,
+        user: {
+          id: participant.id,
+          name: participant.user.name,
+          email: participant.user.email,
+          avatar: participant.user.avatar,
+        },
         debit: debit,
         credit: credit,
         balance: credit - debit,
